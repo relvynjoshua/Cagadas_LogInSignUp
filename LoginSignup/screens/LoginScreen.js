@@ -1,13 +1,55 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, ToastAndroid } from 'react-native'
 import {LinearGradient} from "expo-linear-gradient";
 import color from "../assets/colors";
 import { TextInput } from "react-native-paper";
+import fetchServices from '../services/fetchServices.js';
 
-function LoginScreen(props) {
-    console.log(props);
+function LoginScreen({ navigation }) {
 
     const [showPass, setShowPass] = React.useState(false);
+
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [errors, setErrors] = React.useState("");
+    const [loading, setLoading] = React.useState("");
+
+    const showToast = (message = 'Something went wrong') => {
+        ToastAndroid.show(message, 3000)
+    };
+
+    const handleLogin = async () => {
+        try{
+            setLoading(true);
+            if(email === ""){
+                setErrors({ email: true});
+                return false;
+            }
+            if(password === ""){
+                setErrors({ password: true});
+                return false;
+            }
+
+            // url to be used for database, depends on pc or laptop
+            // open postman to test, phpmyadmin to see data
+            const url = 'http://192.168.1.16:8000/api/auth/login';
+            const data = {
+                email,
+                password,
+            };
+
+            const result = await fetchServices.postData(url, data);
+            console.debug(result);
+            if(result.message != null){
+                showToast(result?.message);
+                navigation.navigate("Home");    //no else bracket, together with navigate
+            }
+        }catch (e) {
+            console.debug(e.toString());
+        }finally{
+            setLoading(false);
+        }
+    };
 
     return (
         <LinearGradient
@@ -21,33 +63,39 @@ function LoginScreen(props) {
             style={styles.input}
             placeholder=''
             label='Email'
+            value={email}
+            onChangeText={setEmail}
+            error={errors?.email}
             />
             <TextInput
             style={styles.input}
             placeholder=''
             label='Password'
-            secureTextEntry={showPass}
+            secureTextEntry={!showPass}
             right={
                 <TextInput.Icon
                 icon={!showPass ? "eye" : "eye-off"}
                 onPress={() => setShowPass(!showPass)}
                 />
             }
+            value={password}
+            onChangeText={setPassword}
+            error={errors?.password}
             />
 
-            <TouchableOpacity style={styles.button2} onPress={() => props.navigation.navigate('Recovery')}>
+            <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Recovery')}>
                 <Text style={styles.btntext2}>
                     Forgot Password?
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button1} onPress={() => props.navigation.navigate('Home')}>
+            <TouchableOpacity style={styles.button1} onPress={handleLogin}>
                 <Text style={styles.btntext1}>
                     Log In
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button2} onPress={() => props.navigation.navigate('Landing')}>
+            <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Landing')}>
                 <Text style={styles.btntext2}>
                     Go Back
                 </Text>

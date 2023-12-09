@@ -17,7 +17,7 @@ function HomeScreen(props) {
             <Text style={styles.text}>Ut enim ad minim veniam, quis 
             nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
 
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Landing')}>
+            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Login')}>
                 <Text style={styles.btntext}>
                     Log Out
                 </Text>
