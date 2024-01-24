@@ -8,23 +8,36 @@ import LandingScreen from './screens/LandingScreen';
 import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import RecoveryScreen from './screens/RecoveryScreen';
+// Correct import statement
+import useAuth from './hooks/useAuth';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
-  return (
+  const {user} = useAuth;
+  if(user){
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Landing'>
-          <Stack.Screen options={{headerShown: false}} name='Landing' component={LandingScreen}/>
-          <Stack.Screen options={{headerShown: false}} name='Login' component={LoginScreen}/>
-          <Stack.Screen options={{headerShown: false}} name='Signup' component={SignupScreen}/>
           <Stack.Screen options={{headerShown: false}} name='Home' component={HomeScreen}/>
-          <Stack.Screen options={{headerShown: false}} name='Recovery' component={RecoveryScreen}/>
         </Stack.Navigator>
       </NavigationContainer> 
     </SafeAreaView>
-  );
+  }else{
+    return (
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Landing'>
+            <Stack.Screen options={{headerShown: false}} name='Landing' component={LandingScreen}/>
+            <Stack.Screen options={{headerShown: false}} name='Login' component={LoginScreen}/>
+            <Stack.Screen options={{headerShown: false}} name='Signup' component={SignupScreen}/>
+            <Stack.Screen options={{headerShown: false}} name='Home' component={HomeScreen}/>
+            <Stack.Screen options={{headerShown: false}} name='Recovery' component={RecoveryScreen}/>
+          </Stack.Navigator>
+        </NavigationContainer> 
+      </SafeAreaView>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

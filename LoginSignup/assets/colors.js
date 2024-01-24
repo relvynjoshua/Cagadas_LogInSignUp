@@ -1,11 +1,12 @@
 const color = {
-    white: "#FFFFFF",
+    white: "#F5F5F5",
     black: "#222222",
-    first: "#164863",
-    second: "#427D9D",
-    third: "#9BBEC8",
-    fourth: "#DDF2FD",
-    grey: "#CCCCCC"
+    grey: "#D3D3D3",
+    first: "#04BB9C",
+    second: "#008569",
+    third: "#C6FCEC",
+    fourth: "#4F2FA0",
+    fifth: "#EDEDED",
 }
 
 export default color;

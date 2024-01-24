@@ -1,86 +1,148 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native'
 import {LinearGradient} from "expo-linear-gradient";
 import color from "../assets/colors";
 import { TextInput } from "react-native-paper";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
+const {height, width} = Dimensions.get('window');
 
 function RecoveryScreen(props) {
     console.log(props);
 
     return (
-        <LinearGradient
-        style={{flex: 1}} colors={[color.first, color.third]}>
+        <LinearGradient style={{flex: 1}} colors={[color.first, color.third]}>
+            <View style={styles.container}>
+            <StatusBar backgroundColor={color.white} barStyle={"dark-content"}/>
+                <View style={styles.header}>
+                    <View style={styles.header1}>
+                        <Text style={styles.logo}>.Clique</Text>
+                    </View>
+                    <View style={styles.header2}></View>
+                </View>
 
-        <View style={styles.container}>
-            <Text style={styles.head}>Recover your account</Text>
-            <Text style={styles.text}>a password reset will sent to your email</Text>
+                <View style={styles.main}>
+                    <View style={styles.section1}>
+                        <Text style={styles.head}>Recover your account</Text>
+                        <Text style={styles.text}>a password reset will be sent to your email</Text>
+                    </View>
+                    <View style={styles.section2}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder=''
+                            label='Email'
+                        />
 
-            <TextInput
-            style={styles.input}
-            placeholder=''
-            label='Email'
-            />
+                        <TouchableOpacity style={styles.button1} onPress={() => props.navigation.navigate('Login')}>
+                            <Text style={styles.btntext1}>Recover Account</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('Login')}>
-                <Text style={styles.btntext}>
-                    Recover Account
-                </Text>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.footer}></View>
+            </View>
         </LinearGradient>
     );
 }
 const styles = StyleSheet.create({
+    /* Container and Sections */
     container: {
-        marginHorizontal: 16,
-        padding: 20,
-        marginTop: 20,
+        height: hp(100),
+        backgroundColor: color.first,
     },
-    head: {
+    header: {
+        height: hp(10),
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    header1: {
+        width: wp(50),
+        backgroundColor: color.white,
+        justifyContent: 'center',
+    },
+    header2: {
+        width: wp(50),
+        backgroundColor: color.white,
+        justifyContent: 'center',
+    },
+    main: {
+        height: hp(80),
+        backgroundColor: color.white,
+    },
+    section1: {
+        height: hp(40),
+        backgroundColor: color.first,
+        justifyContent: 'center',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+    },
+    section2: {
+        height: hp(40),
+        backgroundColor: color.first,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+    },
+    footer: {
+        height: hp(10),
+        backgroundColor: color.white,
+    },
+
+    /* Header */
+    logo: {
+        fontSize: hp(3.4),
+        color: color.black,
         fontFamily: 'sans-serif',
         fontWeight: 'bold',
-        fontSize: 45,
-        color: 'white',
+        textAlign: 'left',
+        marginLeft: hp(2),
+    }, 
+    head: {
+        fontSize: hp(4),
+        color: color.black,
+        fontFamily: 'sans-serif',
+        fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: 280,
-        marginBottom: 20,
+        marginRight: hp(2),
     },
     text: {
         fontFamily: 'sans-serif',
-        fontSize: 20,
-        color: 'white',
+        fontSize: hp(2),
+        color: color.black,
         textAlign: 'center',
-        marginTop: 15,
-        marginBottom: 15,
+        margin: 10,
     },
-    button: {
-        backgroundColor: '#164863',
-        borderRadius: 6,
+
+    /* Body */
+    input: {
+        fontFamily: 'sans-serif',
+        fontSize: hp(2.2), 
+        paddingVertical: 3,
+        borderRadius: 10,
+        borderWidth: 3,
+        borderColor: color.grey,
+        backgroundColor: color.fifth,
+        margin: 10,
+        marginLeft: hp(2),
+        marginRight: hp(2),
+    },
+    button1: {
+        backgroundColor: color.white,
+        borderRadius: 50,
         paddingVertical: 12,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 25,
-        marginLeft: 100,
-        marginRight: 100,
+        marginTop: hp(1.6),
+        marginLeft: 90,
+        marginRight: 90,
     },
-    btntext: {
+    btntext1: {
         fontFamily: 'sans-serif',
-        fontSize: 20,
-        color: '#DDF2FD',
+        fontSize: hp(2.6),
+        fontWeight: 'bold',
+        color: color.black,
         textAlign: 'center'
     },
-    input: {
-        paddingVertical: 2,
-        paddingHorizontal: 8,
-        borderWidth: 3, 
-        borderColor: '#9BBEC8', 
-        borderRadius: 6,
-        margin: 8,
-        fontFamily: 'sans-serif',
-        fontSize: 20, 
-        backgroundColor: 'white',
-    }
 });
 
 export default RecoveryScreen;
